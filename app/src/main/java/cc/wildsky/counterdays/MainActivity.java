@@ -13,13 +13,16 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    int a = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        */
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,15 +33,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    
-    int a = 0;
+
     private void addCounter() {
         TextView newt = new TextView(this);
         LinearLayout LL = (LinearLayout) findViewById(R.id.LL);
-        String s = "y";
         a += 1;
-        for(int i = 0 ; i < a ; ++i)
-            s += "o";
+        String s = "還剩下 " + a + " 天！";
+        newt.setTextSize(36);
         newt.setText(s);
         LL.addView(newt);
     }
