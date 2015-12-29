@@ -1,5 +1,6 @@
 package cc.wildsky.counterdays;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    static int request_code = 123;
     int a = 0;
 
     @Override
@@ -24,23 +26,26 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         */
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addCounter();
-                Snackbar.make(view, "已新增新倒數日！", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
-    private void addCounter() {
+    public void go(View v) {
+        Intent it = new Intent(this, AddCounterActivity.class);
+        startActivityForResult(it, request_code);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (requestCode == request_code && resultCode == RESULT_OK) {
+            String myValue = data.getStringExtra("valueName");
+            addCounter(myValue);
+        }
+    }
+
+    private void addCounter(String val) {
         TextView newt = new TextView(this);
         LinearLayout LL = (LinearLayout) findViewById(R.id.LL);
-        a += 1;
-        String s = "還剩下 " + a + " 天！";
         newt.setTextSize(36);
-        newt.setText(s);
+        newt.setText(val);
         LL.addView(newt);
     }
 
