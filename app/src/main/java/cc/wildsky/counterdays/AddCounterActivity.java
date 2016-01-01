@@ -55,16 +55,20 @@ public class AddCounterActivity extends AppCompatActivity implements View.OnClic
 
         TextView tv = (TextView) findViewById(R.id.eventName);
         String evenName = tv.getText().toString();
-        CalendarView ct = (CalendarView) findViewById(R.id.calView);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-
         String today = formatter.format(new Date());
 
-        String s = "距離" + evenName + "還剩下" + between(eventDate, today, formatter) + "天";
-
         Intent resultData = new Intent();
-        resultData.putExtra("valueName", s);
+        resultData.putExtra("valueName", "距離" + evenName + "還剩下" + between(eventDate, today, formatter) + "天");
+        setResult(Activity.RESULT_OK, resultData);
+        finish();
+    }
+
+    public void cancel(View v) {
+        Toast.makeText(getApplicationContext(), "取消囉～", Toast.LENGTH_SHORT).show();
+        Intent resultData = new Intent();
+        resultData.putExtra("valueName", "cancel");
         setResult(Activity.RESULT_OK, resultData);
         finish();
     }

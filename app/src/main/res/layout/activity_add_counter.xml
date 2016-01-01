@@ -30,10 +30,11 @@
 
     <CalendarView
         android:id="@+id/calView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_above="@+id/button"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvDate" />
 
     <TextView
         android:id="@+id/tvDate"
@@ -51,5 +52,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:text="新增！"
+        android:textSize="26dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button"
+        android:layout_toStartOf="@+id/button"
+        android:onClick="cancel"
+        android:text="取消…"
         android:textSize="26dp" />
 </RelativeLayout>
