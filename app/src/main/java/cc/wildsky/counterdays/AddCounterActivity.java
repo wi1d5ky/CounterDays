@@ -8,17 +8,46 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddCounterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    String eventDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_counter);
         Button b = (Button) findViewById(R.id.button);
         b.setOnClickListener(this);
+
+        CalendarView ct = (CalendarView) findViewById(R.id.calView);
+        ct.setOnDateChangeListener(new CalendarView.OnDateChangeListener() { //監聽當日期改變
+
+            public void onSelectedDayChange(CalendarView view, int year, int month, int date) { //Month從0算起
+                eventDate = year + "/" + (month > 8 ? "" : "0") + (month + 1) + "/" + (date > 10 ? "" : "0") + date;
+                Toast.makeText(getApplicationContext(), eventDate, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    long between(String small, String big, SimpleDateFormat sdf) {
+        long fdate = 0, ndate = 0;
+        try {
+            try {
+                fdate = sdf.parse(small).getTime();
+                ndate = sdf.parse(big).getTime();
+            } catch (java.lang.NullPointerException e) {
+                Toast.makeText(getApplicationContext(), "Something Wrong!!", Toast.LENGTH_LONG).show();
+            }
+        } catch (ParseException e) {
+            Toast.makeText(getApplicationContext(), "Something Wrong!!", Toast.LENGTH_LONG).show();
+        }
+
+        return (fdate - ndate) / (24 * 60 * 60 * 1000);
     }
 
     @Override
@@ -27,8 +56,12 @@ public class AddCounterActivity extends AppCompatActivity implements View.OnClic
         TextView tv = (TextView) findViewById(R.id.eventName);
         String evenName = tv.getText().toString();
         CalendarView ct = (CalendarView) findViewById(R.id.calView);
-        long eventDate = ct.getDate();
-        String s = "距離" + evenName + "還剩下" + eventDate;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+
+        String today = formatter.format(new Date());
+
+        String s = "距離" + evenName + "還剩下" + between(eventDate, today, formatter) + "天";
 
         Intent resultData = new Intent();
         resultData.putExtra("valueName", s);
