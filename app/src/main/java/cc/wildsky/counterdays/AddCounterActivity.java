@@ -39,6 +39,11 @@ public class AddCounterActivity extends AppCompatActivity implements View.OnClic
         Button b = (Button) findViewById(R.id.button);
         b.setOnClickListener(this);
 
+        Bundle bundle = this.getIntent().getExtras();
+        String event_name = bundle.getString("event name");
+        TextView tv = (TextView) findViewById(R.id.eventName);
+        tv.setText(event_name);
+
         CalendarView ct = (CalendarView) findViewById(R.id.calView);
         ct.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             //監聽日期改變
@@ -47,6 +52,7 @@ public class AddCounterActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(getApplicationContext(), eventDate, Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     long between(String small, String big, SimpleDateFormat sdf) {

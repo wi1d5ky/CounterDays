@@ -110,6 +110,13 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     public void onClick(View v) {
         selectedView = (TextView) v;
         Intent it = new Intent(this, AddCounterActivity.class);
+
+        Bundle bundle = new Bundle();
+        String eventName = ((TextView) v).getText().toString();
+        eventName = eventName.replaceAll("距離|還剩下-?[0-9]+天$", "");
+        bundle.putString("event name", eventName);
+        it.putExtras(bundle);
+
         startActivityForResult(it, edit_code);
     }
 
@@ -158,6 +165,11 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
 
     public void go(View v) {
         Intent it = new Intent(this, AddCounterActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("", "");
+        it.putExtras(bundle);
+
         startActivityForResult(it, add_code);
     }
 
