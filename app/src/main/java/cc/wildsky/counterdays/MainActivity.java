@@ -26,8 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     final static int add_code = 123;   // add a new counter
     final static int edit_code = 333;  // edit a counter
     static int counterNum = 0;
+    int num_of_counter = 0;
     TextView selectedView = null;
-    private String SAVE_FILE_NAME = "counter_savefile1.json";
+    private String SAVE_FILE_NAME = "counter_savefile2.json";
 
     private void writeToFile(String data) {
         try {
@@ -82,9 +83,18 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
             try {
                 addCounter("距離" + data.getJSONObject(i).getString("Name") +
                         "還剩下" + data.getJSONObject(i).getInt("Val") + "天");
+                num_of_counter += 1;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        if (num_of_counter == 0) {
+            LinearLayout LL = (LinearLayout) findViewById(R.id.LL);
+            TextView intro = new TextView(this);
+            intro.setText("右下角的按鈕可以新增，單點可編輯，長按可移除。");
+            intro.setId(R.id.intro);
+            LL.addView(intro);
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -130,6 +140,16 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         LinearLayout LL = (LinearLayout) findViewById(R.id.LL);
         TextView tv = (TextView) v;
         removeEleFromFile(tv.getText().toString());
+        Log.i("num_of_counter ", String.valueOf(num_of_counter));
+        num_of_counter -= 1;
+
+
+        if (num_of_counter == 0) {
+            TextView intro = new TextView(this);
+            intro.setText("右下角的按鈕可以新增，單點可編輯，長按可移除。");
+            intro.setId(R.id.intro);
+            LL.addView(intro);
+        }
 
         LL.removeView(v);
         Toast.makeText(getApplicationContext(), "已移除", Toast.LENGTH_SHORT).show();
@@ -152,11 +172,18 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
                         LinearLayout LL = (LinearLayout) findViewById(R.id.LL);
                         LL.removeView(selectedView);
                         removeEleFromFile(selectedView.getText().toString());
+                        num_of_counter -= 1;
                         Toast.makeText(getApplicationContext(), "已更新", Toast.LENGTH_SHORT).show();
                     }
                 case add_code:
-                    if (!myValue.equals("cancel"))
+                    if (!myValue.equals("cancel")) {
                         addCounter(myValue);
+                        num_of_counter += 1;
+                    }
+                    LinearLayout LL = (LinearLayout) findViewById(R.id.LL);
+                    TextView intro = (TextView) findViewById(R.id.intro);
+                    if (intro != null)
+                        LL.removeView(intro);
                     break;
             }
         }

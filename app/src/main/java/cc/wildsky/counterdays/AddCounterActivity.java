@@ -29,7 +29,7 @@ import java.util.Date;
 public class AddCounterActivity extends AppCompatActivity implements View.OnClickListener {
 
     String eventDate;
-    private String SAVE_FILE_NAME = "counter_savefile1.json";
+    private String SAVE_FILE_NAME = "counter_savefile2.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
