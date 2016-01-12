@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnLongClickListener, View.OnClickListener {
 
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     static int counterNum = 0;
     int num_of_counter = 0;
     TextView selectedView = null;
+    int colors[] = {0xFF82b1ff, 0xFFb388ff, 0xffffff8d, 0xffff9e80, 0xffff80ab, 0xfff4ff81, 0xffccff90};
+    int colorptr = 0;
     private String SAVE_FILE_NAME = "counter_savefile2.json";
 
     private void writeToFile(String data) {
@@ -128,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         if (origin_data != null) {
             try {
                 for (int i = 0; i < origin_data.length(); i++) {
-                    String str = "距離" + origin_data.getJSONObject(i).getString("Name") +
+                    String str = " 距離" + origin_data.getJSONObject(i).getString("Name") +
                             "還剩下" + origin_data.getJSONObject(i).getInt("Val") + "天";
                     if (!str.equals(s) && !deleted)
                         new_data.put(origin_data.get(i));
@@ -207,6 +210,15 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         LinearLayout LL = (LinearLayout) findViewById(R.id.LL);
         newt.setTextSize(36);
         newt.setText(val);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, 10, 0, 0);
+        newt.setLayoutParams(lp);
+
+        Random rn = new Random();
+
+        newt.setBackgroundColor(colors[colorptr % 7]);
+        colorptr += 1;
         LL.addView(newt);
         newt.setOnClickListener(this);
         newt.setOnLongClickListener(this);
